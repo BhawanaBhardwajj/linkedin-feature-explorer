@@ -1,7 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FileText } from "lucide-react";
+import { FileText, MapPin, Calendar, TrendingUp, Users } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 
 interface ApplicationCardProps {
   title: string;
@@ -97,9 +106,101 @@ const ApplicationCard = ({
                 </div>
               </div>
             </div>
-            <Button variant="outline" size="sm" className="text-linkedin border-linkedin hover:bg-linkedin/5">
-              View Details
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-linkedin border-linkedin hover:bg-linkedin/5">
+                  View Details
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl">{title}</DialogTitle>
+                  <DialogDescription className="text-base">
+                    {company} • {location}
+                  </DialogDescription>
+                </DialogHeader>
+                
+                <div className="space-y-6 mt-4">
+                  {/* Status and Date */}
+                  <div className="flex items-center justify-between">
+                    <Badge className={`${statusColors[status]} border`}>{status}</Badge>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Calendar className="h-4 w-4" />
+                      Applied {appliedDate}
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Progress */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium">Application Progress</span>
+                      <span className="text-sm text-muted-foreground">{progress}%</span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-2">
+                      <div
+                        className="bg-linkedin h-2 rounded-full transition-all"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Job Details */}
+                  <div className="space-y-4">
+                    <h4 className="font-semibold flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4" />
+                      Job Details
+                    </h4>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-muted-foreground">Location:</span>
+                        <p className="flex items-center gap-1 mt-1">
+                          <MapPin className="h-3 w-3" />
+                          {location}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Status:</span>
+                        <p className="mt-1">{status}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Recruiter Info */}
+                  <div className="space-y-3">
+                    <h4 className="font-semibold flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      Contact Information
+                    </h4>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${recruiterSeed}`} />
+                        <AvatarFallback>{recruiterName[0]}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium">{recruiterName}</p>
+                        <p className="text-sm text-muted-foreground">Recruiter</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-2 pt-4">
+                    <Button className="flex-1 bg-linkedin hover:bg-linkedin/90">
+                      Message Recruiter
+                    </Button>
+                    <Button variant="outline" className="flex-1">
+                      Withdraw Application
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
