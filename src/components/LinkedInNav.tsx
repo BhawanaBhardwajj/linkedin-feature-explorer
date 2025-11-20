@@ -1,64 +1,78 @@
-import { Home, Users, Briefcase, MessageSquare, Bell, User, Grid3x3, Megaphone, Search } from "lucide-react";
+import { Home, Users, Briefcase, MessageSquare, Bell, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const LinkedInNav = () => {
   const navItems = [
     { icon: Home, label: "Home", active: false },
     { icon: Users, label: "My Network", active: false, badge: 12 },
-    { icon: Briefcase, label: "Jobs", active: true, badge: 2 },
+    { icon: Briefcase, label: "Jobs", active: true },
     { icon: MessageSquare, label: "Messaging", active: false },
     { icon: Bell, label: "Notifications", active: false, badge: 5 },
-    { icon: User, label: "Me", active: false },
-    { icon: Grid3x3, label: "For Business", active: false },
-    { icon: Megaphone, label: "Advertise", active: false },
   ];
 
   return (
-    <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
-      <div className="max-w-[1200px] mx-auto px-4">
-        <div className="flex items-center justify-between h-[52px]">
-          {/* Logo and Search */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-linkedin rounded flex items-center justify-center">
-              <span className="text-white font-bold text-lg">in</span>
+    <nav className="bg-card border-b border-border sticky top-0 z-50">
+      <div className="max-w-[1128px] mx-auto px-6">
+        <div className="flex items-center h-[52px] gap-2">
+          {/* Logo */}
+          <div className="flex items-center gap-2 min-w-[300px]">
+            <div className="w-[34px] h-[34px] bg-linkedin rounded flex items-center justify-center flex-shrink-0">
+              <span className="text-white font-bold text-sm">in</span>
             </div>
-            <div className="relative hidden md:block">
-              <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            
+            {/* Search */}
+            <div className="relative flex-1 max-w-[280px]">
+              <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-[14px] w-[14px] text-muted-foreground" />
               <Input 
-                placeholder="I'm looking for..." 
-                className="w-[280px] pl-8 h-8 bg-accent/50 border-none"
+                placeholder="Search" 
+                className="w-full pl-8 h-[34px] bg-accent/30 border-none text-sm placeholder:text-muted-foreground/70 focus-visible:bg-accent/50"
               />
             </div>
           </div>
 
           {/* Navigation Items */}
-          <div className="flex items-center">
+          <div className="flex items-center flex-1 justify-end">
             {navItems.map((item, index) => (
               <Button
                 key={index}
                 variant="ghost"
-                className={`flex flex-col items-center justify-center gap-0.5 h-[52px] px-3 hover:bg-transparent relative ${
+                className={`flex flex-col items-center justify-center gap-0 h-[52px] px-4 hover:bg-transparent relative rounded-none group ${
                   item.active 
-                    ? "text-foreground border-b-2 border-linkedin" 
+                    ? "text-foreground" 
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <div className="relative">
-                  <item.icon className="h-5 w-5" />
+                <div className="relative mb-0.5">
+                  <item.icon className="h-6 w-6" strokeWidth={1.5} />
                   {item.badge && (
                     <Badge 
                       variant="destructive" 
-                      className="absolute -top-1 -right-2 h-4 min-w-4 px-1 text-[10px] flex items-center justify-center"
+                      className="absolute -top-1.5 -right-2 h-[18px] min-w-[18px] px-1 text-[11px] flex items-center justify-center rounded-full font-normal"
                     >
                       {item.badge}
                     </Badge>
                   )}
                 </div>
-                <span className="text-[10px] hidden lg:block">{item.label}</span>
+                <span className="text-[12px] leading-none">{item.label}</span>
+                {item.active && (
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground" />
+                )}
               </Button>
             ))}
+            
+            {/* Me with Avatar */}
+            <Button
+              variant="ghost"
+              className="flex flex-col items-center justify-center gap-0 h-[52px] px-4 hover:bg-transparent relative rounded-none group text-muted-foreground hover:text-foreground"
+            >
+              <Avatar className="h-6 w-6 mb-0.5">
+                <AvatarFallback className="bg-muted text-[10px]">ME</AvatarFallback>
+              </Avatar>
+              <span className="text-[12px] leading-none">Me</span>
+            </Button>
           </div>
         </div>
       </div>
